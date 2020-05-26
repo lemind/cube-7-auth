@@ -19,12 +19,14 @@ const mongoUri = process.env.NODE_ENV === 'production'
 const mongoDB = process.env.NODE_ENV === 'production'
   ? process.env.MONGODB_URI_DATABASE_NAME : mongoDBLocal
 
-const migrate = require('./db/migrate');
-const env = {
-  'process.env.MONGODB_URI': `"${mongoUri}"`,
-  'process.env.MONGODB_URI_DATABASE_NAME': `"${mongoDB}"`
-};
-migrate.migrate(env);
+if (process.env.NODE_ENV === 'production') {
+  const migrate = require('./db/migrate');
+  const env = {
+    'process.env.MONGODB_URI': `"${mongoUri}"`,
+    'process.env.MONGODB_URI_DATABASE_NAME': `"${mongoDB}"`
+  };
+  migrate.migrate(env);
+}
 
 try {
   mongoose.connect(mongoUri, {})
