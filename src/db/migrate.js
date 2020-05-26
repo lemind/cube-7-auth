@@ -2,13 +2,10 @@ const {
     database,
     up,
     status,
-    config
   } = require('migrate-mongo');
 
   const migrate = async function(){
     try {
-      config.DEFAULT_CONFIG_FILE_NAME = 'src/migrate-mongo-config.js';
-
       const { db, client } = await database.connect();
       const migrated = await up(db, client);
       migrated.forEach(fileName => console.log('Migrated:', fileName));
