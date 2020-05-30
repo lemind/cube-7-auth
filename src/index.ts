@@ -1,11 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const helmet = require('helmet');
-const path = require('path');
-const dotenv = require('dotenv');
-const routes = require('./routes/');
-const mongoose = require('mongoose');
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as mongoose from 'mongoose';
+import * as cors from 'cors';
+import * as helmet from 'helmet';
+import * as dotenv from 'dotenv';
+import routes from './routes/index';
+import migrate from './db/migrate';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -19,19 +19,13 @@ const mongoUri = process.env.NODE_ENV === 'production'
 const mongoDB = process.env.NODE_ENV === 'production'
   ? process.env.MONGODB_URI_DATABASE_NAME : mongoDBLocal
 
-// if (process.env.NODE_ENV === 'production') {
-  const migrate = require('./db/migrate');
-  const env = {
-    'process.env.MONGODB_URI': `"${mongoUri}"`,
-    'process.env.MONGODB_URI_DATABASE_NAME': `"${mongoDB}"`
-  };
-  migrate.migrate(env);
-// }
+migrate();
+
 
 try {
   mongoose.connect(mongoUri, {})
 } catch (error) {
-  console.log('Connecting mongoose error', err);
+  console.log('Connecting mongoose error', error);
 }
 
 const router = express.Router()
@@ -44,7 +38,7 @@ app.use(helmet());
 
 app.use('/api', router);
 
-app.listen(port, "0.0.0.0", (err) => {
+app.listen(<number>port, "0.0.0.0", (err) => {
   if (err) {
     console.log(err);
   } else {

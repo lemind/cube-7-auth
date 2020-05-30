@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "heroku-postbuild": "npm run build",
+    "start": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -13,12 +15,22 @@
   "author": "Dimitry Lyomin",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.26.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^5.3.3",
     "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
     "migrate-mongo": "^7.2.1",
     "mongoose": "^5.9.15"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
   }
 }
