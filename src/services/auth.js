@@ -11,16 +11,24 @@ const ERRORS = {
   'INCORRECT_PASSWORD': {id: 102, message: 'Incorrect password'}
 }
 
+// ToDo: temp
+class ErrorSys {
+  constructor(errorObject) {
+    this.details = errorObject
+  }
+}
+
+
 export default class AuthService {
   async Login(email, password) {
     const userRecord = await UserModel.findOne({ email });
 
     if (!userRecord) {
-      throw new Error(ERRORS.USER_NOT_FOUND)
+      throw new ErrorSys(ERRORS.USER_NOT_FOUND)
     } else {
       const correctPassword = await argon2.verify(userRecord.password, password);
       if (!correctPassword) {
-        throw new Error(ERRORS.INCORRECT_PASSWORD)
+        throw new ErrorSys(ERRORS.INCORRECT_PASSWORD)
       }
     }
 

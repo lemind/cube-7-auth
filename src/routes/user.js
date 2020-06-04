@@ -14,7 +14,7 @@ export default (router) => {
 
         return res.status(200).json({ user, token }).end();
       } catch(e) {
-        return res.status(500).json({ success: false, error: String(e) });
+        return res.status(500).json({ success: false, error: e });
       }
     })
 
@@ -27,7 +27,7 @@ export default (router) => {
         const { user, token } = await authServiceInstance.SignUp(email, password, name);
         return res.json({ user, token }).status(200).end();
       } catch (e) {
-        return res.status(500).json({ success: false, error: String(e) });
+        return res.status(500).json({ success: false, error: e });
       }
     })
   }
