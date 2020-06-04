@@ -1,6 +1,4 @@
-import * as mongooseWrapped from 'mongoose';
-
-const mongoose = mongooseWrapped.default;
+import * as mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
   email: {

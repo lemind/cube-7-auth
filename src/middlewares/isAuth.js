@@ -1,8 +1,6 @@
 import * as jwt from 'express-jwt';
 import config from '../config';
 
-console.log('dae', jwt)
-
 const getTokenFromHeader = (req) => {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
     return req.headers.authorization.split(' ')[1];

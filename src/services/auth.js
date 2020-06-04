@@ -6,39 +6,31 @@ import config from '../config';
 
 import * as jwt from 'jsonwebtoken';
 
+const ERRORS = {
+  'USER_NOT_FOUND': {id: 101, message: 'User not found'},
+  'INCORRECT_PASSWORD': {id: 102, message: 'Incorrect password'}
+}
+
 export default class AuthService {
   async Login(email, password) {
     const userRecord = await UserModel.findOne({ email });
+
     if (!userRecord) {
-      throw new Error('User not found')
+      throw new Error(ERRORS.USER_NOT_FOUND)
     } else {
       const correctPassword = await argon2.verify(userRecord.password, password);
       if (!correctPassword) {
-        throw new Error('Incorrect password')
+        throw new Error(ERRORS.INCORRECT_PASSWORD)
       }
     }
 
+    const userDataForJWT = {_id: userRecord._id, email}
     return {
       user: {
         email: userRecord.email,
         name: userRecord.name,
       },
-      token: this.generateJWT(userRecord),
-    }
-  }
-
-  async LoginAs(email) {
-    const userRecord = await UserModel.findOne({ email });
-    console.log('Finding user record...');
-    if (!userRecord) {
-      throw new Error('User not found');
-    }
-    return {
-      user: {
-        email: userRecord.email,
-        name: userRecord.name,
-      },
-      token: this.generateJWT(userRecord),
+      token: this.generateJWT(userDataForJWT),
     }
   }
 
@@ -67,7 +59,6 @@ export default class AuthService {
     return jwt.sign({
         data: {
           _id: user._id,
-          name: user.name,
           email: user.email
         }
       },

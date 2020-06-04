@@ -16,11 +16,8 @@ const mongoUriLocal = 'mongodb://localhost:27017'
 const mongoDBLocal = 'auth'
 const mongoUri = process.env.NODE_ENV === 'production'
   ? process.env.MONGODB_URI : mongoUriLocal
-const mongoDB = process.env.NODE_ENV === 'production'
-  ? process.env.MONGODB_URI_DATABASE_NAME : mongoDBLocal
 
 migrate();
-
 
 try {
   mongoose.connect(mongoUri, {})
