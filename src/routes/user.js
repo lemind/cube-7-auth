@@ -1,6 +1,4 @@
 import AuthService from '../services/auth';
-import isAuth from '../middlewares/isAuth';
-import attachCurrentUser from '../middlewares/attachCurrentUser';
 
 export default (router) => {
   router
