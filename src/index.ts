@@ -13,7 +13,7 @@ const app = express();
 dotenv.config();
 
 const mongoUriLocal = 'mongodb://localhost:27017'
-const mongoDBLocal = 'auth'
+
 const mongoUri = process.env.NODE_ENV === 'production'
   ? process.env.MONGODB_URI : mongoUriLocal
 

@@ -3,6 +3,7 @@ www
 .DS_Store
 npm-debug.*
 dist
+build
 
 *.env
 coverage

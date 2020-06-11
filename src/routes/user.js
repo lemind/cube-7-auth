@@ -28,5 +28,14 @@ export default (router) => {
         return res.status(500).json({ success: false, error: e });
       }
     })
+
+  router
+    .route('/ping')
+    .get(
+      (req, res, next) => {
+        console.log('---test---', req.body);
+        return res.json({ result: {test: 'pong'}, success: true });
+      },
+    )
   }
 

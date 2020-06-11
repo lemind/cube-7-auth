@@ -1,4 +1,4 @@
-import * as jwt from 'express-jwt';
+import * as expressJwt from 'express-jwt';
 import config from '../config';
 
 const getTokenFromHeader = (req) => {
@@ -7,7 +7,7 @@ const getTokenFromHeader = (req) => {
   }
 }
 
-export default jwt({
+export default expressJwt({
   secret: config.jwtSecretKey,
   userProperty: 'token', // this is where the next middleware can find the encoded data generated in services/auth:generateToken
   getToken: getTokenFromHeader,
