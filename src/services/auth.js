@@ -8,7 +8,13 @@ import * as jwt from 'jsonwebtoken';
 
 const ERRORS = {
   'USER_NOT_FOUND': {id: 101, message: 'User not found'},
-  'INCORRECT_PASSWORD': {id: 102, message: 'Incorrect password'}
+  'INCORRECT_PASSWORD': {id: 102, message: 'Incorrect password'},
+  'DUBLICATE_EMAIL': {id: 103, message: 'User with this email is already exist'}
+}
+
+// mongo errors
+const mongoErrorsConsts = {
+  11000: 'DUBLICATE_EMAIL'
 }
 
 // ToDo: temp
@@ -46,20 +52,26 @@ export default class AuthService {
     const salt = randomBytes(32);
     const passwordHashed = await argon2.hash(password, { salt });
 
-    const userRecord = await UserModel.create({
-      password: passwordHashed,
-      email,
-      salt: salt.toString('hex'),
-      name,
-    });
-    const token = this.generateJWT(userRecord);
+    try {
+      const userRecord = await UserModel.create({
+        password: passwordHashed,
+        email,
+        salt: salt.toString('hex'),
+        name,
+      });
 
-    return {
-      user: {
-        email: userRecord.email,
-        name: userRecord.name,
-      },
-      token,
+      const token = this.generateJWT(userRecord);
+
+      return {
+        user: {
+          email: userRecord.email,
+          name: userRecord.name,
+        },
+        token,
+      }
+    } catch(error) {
+      const knownError = ERRORS[mongoErrorsConsts[error.code]]
+      throw new ErrorSys(knownError || error)
     }
   }
 

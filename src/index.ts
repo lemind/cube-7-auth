@@ -7,7 +7,7 @@ import * as dotenv from 'dotenv';
 import routes from './routes/index';
 import migrate from './db/migrate';
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const app = express();
 
 dotenv.config();
