@@ -10,7 +10,7 @@ export default (router) => {
         const authServiceInstance = new AuthService();
         const { user, token } = await authServiceInstance.Login(email, password);
 
-        return res.status(200).json({ success: true, user, token }).end();
+        return res.json({ success: true, user, token }).status(200).end();
       } catch(e) {
         return res.status(500).json({ success: false, error: e });
       }
